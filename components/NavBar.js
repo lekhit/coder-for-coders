@@ -12,11 +12,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useRouter } from 'next/router';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['home', 'blogs'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+  const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -27,7 +29,9 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (n) => {
+    if (n == 'home') n = '';
+    router.push(`/${n}`);
     setAnchorElNav(null);
   };
 
@@ -88,7 +92,11 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page}
+                  data={page}
+                  onClick={() => handleCloseNavMenu(page)}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -117,6 +125,7 @@ const ResponsiveAppBar = () => {
             {pages.map((page) => (
               <Button
                 key={page}
+                data={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
